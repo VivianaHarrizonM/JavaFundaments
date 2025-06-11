@@ -1,0 +1,30 @@
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+.gradle/
+
+# Archivos de NetBeans y temporales
+*.class
+*.jar
+*.war
+*.ear
+*.log
+*.bak
+*.swp
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# IDEs
+*.iml
+.idea/
+.vscode/
+
+# Archivos de configuración personales
+*.properties.local
+*.env
