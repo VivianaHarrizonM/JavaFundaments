@@ -1,0 +1,26 @@
+# Java Fundamentals 💻☕️
+
+This repository contains exercises and practical examples that cover the **fundamentals of the Java programming language**. It is aimed at students or people who want to reinforce or learn essential Java concepts from scratch.
+
+---
+
+## 📚 Topics Covered
+
+- Basic Java Syntax
+- Data Types and Operators
+- Control Structures (`if`, `switch`, `while`, `for`)
+- Methods and Parameter Passing
+- Classes and Objects
+- Encapsulation
+- Inheritance and Polymorphism
+- Method Overloading and Overriding
+- Using `this` and `super`
+- Constructors
+- Arrays and Arrays
+- Enums
+- Exception Handling (`try-catch-finally`)
+- Abstract Classes and Interfaces
+- Packages and Visibility (`private`, `public`, `protected`)
+- Introduction to JavaBeans and Serialization
+
+---
