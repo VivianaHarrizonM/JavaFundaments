@@ -5,6 +5,7 @@
 package controlador;
 
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -33,20 +34,42 @@ public class ServletControlador extends HttpServlet {
             throws ServletException, IOException {
         
         //1. Procesamos parametros
+        String accion = request.getParameter("accion");
         
         //2. Creamos los JavaBeans (Clases de modelo)
-        Rectangulo rectangulo = new Rectangulo(3,6);
+        Rectangulo rectanguloRequest = new Rectangulo(1,2);
+        Rectangulo rectanguloSession = new Rectangulo(3,4);
+        Rectangulo rectanguloApplication = new Rectangulo(5,6);
         
         //3. Agregamos el JavaBean a algún alcance (request, session application)
-         request.setAttribute("Mensaje", "Saludos desde el Servlet");
+         if("agregarVariables".equals(accion)){
+             //Alcance request
+             request.setAttribute("rectanguloRequest", rectanguloRequest);
+             //Alcance session
+             HttpSession sesion = request.getSession();
+             sesion.setAttribute("rectanguloSession", rectanguloSession); 
+             //ALcance de Application
+             ServletContext application = this.getServletContext();
+             application.setAttribute("rectanguloApplication", rectanguloApplication);
+             
+             //Agregamos un mensaje
+             request.setAttribute("mensaje", "Las variables fueron agregadas");
+             
+            //4. Redireccionamos al jsp de index
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+            return;
+         }
+         else if("listarVariables".equals(accion)){
+             //Redirigimos al jsp que despliega las variables
+             request.getRequestDispatcher("WEB-INF/alcanceVariables.jsp").forward(request, response);
+             return;
+         }else{
+             //redirige a la página de inicio
+             request.setAttribute("mensaje", "Acción no proporcionada o desconocida");
+             request.getRequestDispatcher("index.jsp").forward(request, response);
+         }
          
-         HttpSession sesion = request.getSession();
-         sesion.setAttribute("rectangulo", rectangulo); //Se comparte el modelo
-         
-         
-         //4. Redireccionar a la vista seleccionada
-         RequestDispatcher requestDispatcher = request.getRequestDispatcher("Vista/despleglarVariables.jsp");
-         requestDispatcher.forward(request, response);
+       
          
         
         response.setContentType("text/html;charset=UTF-8");
