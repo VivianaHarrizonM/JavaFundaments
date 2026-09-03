@@ -22,6 +22,7 @@ public class Conexion {
     public static DataSource getDataSource(){
         if(dataSource == null){
             dataSource = new BasicDataSource();
+            dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
             dataSource.setUrl(JDBC_URL);
             dataSource.setUsername(JDBC_USER);
             dataSource.setPassword(JDBC_PASSWORD);
