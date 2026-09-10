@@ -34,6 +34,7 @@ public class ServletControlador extends HttpServlet {
         String accion = Optional.ofNullable(request.getParameter("accion")).orElse("listar");
         switch(accion){
             case "listar" -> this.listarClientes(request, response);
+            case "editar" -> this.editarCliente(request, response);
             default -> this.listarClientes(request, response);
         }
     }
@@ -63,6 +64,15 @@ public class ServletControlador extends HttpServlet {
         return clientes.stream().mapToDouble(Cliente::getSaldo).sum();
     }
     
+    private void editarCliente(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        int idCliente = Integer.parseInt(request.getParameter("idCliente"));
+        Cliente cliente = new ClienteDAO().encontrarCliente(new Cliente(idCliente));
+        request.setAttribute("cliente", cliente);
+        String jspEditar = "/WEB-INF/paginas/cliente/editarCliente.jsp";
+        request.getRequestDispatcher(jspEditar).forward(request, response);
+        
+    }
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -74,7 +84,27 @@ public class ServletControlador extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String accion = Optional.ofNullable(request.getParameter("accion")).orElse("listar");
+        switch(accion){
+            case "insertar" -> this.insertarCliente(request, response);
+            default -> this.listarClientes(request, response);
+        }
     }
 
-    
+    private void insertarCliente(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //Procesamos los datos del formulario
+        String nombre = request.getParameter("nombre");
+        String apellido = request.getParameter("apellido");
+        String email = request.getParameter("email");
+        String telefono = request.getParameter("telefono");
+        double saldo = Double.parseDouble(request.getParameter("saldo"));
+     
+        //Creamos un objeto de tipo cliente
+        Cliente cliente = new Cliente(nombre, apellido, email, telefono, saldo);
+        new ClienteDAO().insertar(cliente);
+        
+        //Listamos los clientes
+        this.listarClientes(request, response);
+    }
 }

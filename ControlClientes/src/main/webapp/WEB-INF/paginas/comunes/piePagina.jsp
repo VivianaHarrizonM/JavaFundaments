@@ -19,7 +19,7 @@
         </div>
         <hr class="border-secondary my-4">
         <p class="text-center text-white-50 small mb-0">
-            &copy; <span id="anio-actual">2026</span> UnaEmpresa.com.mx ? Todos los derechos reservados
+            &copy; <span id="anio-actual">2026</span> UnaEmpresa.com.mx | Todos los derechos reservados
         </p>
     </div>
 </footer>
