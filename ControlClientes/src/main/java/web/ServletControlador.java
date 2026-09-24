@@ -35,6 +35,7 @@ public class ServletControlador extends HttpServlet {
         switch(accion){
             case "listar" -> this.listarClientes(request, response);
             case "editar" -> this.editarCliente(request, response);
+            case "eliminar" -> this.eliminarCliente(request, response);
             default -> this.listarClientes(request, response);
         }
     }
@@ -73,6 +74,13 @@ public class ServletControlador extends HttpServlet {
         request.getRequestDispatcher(jspEditar).forward(request, response);
         
     }
+    
+       private void eliminarCliente(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        int idCliente = Integer.parseInt(request.getParameter("idCliente"));
+        new ClienteDAO().eliminar(new Cliente(idCliente));
+        this.listarClientes(request, response);
+    }
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -87,6 +95,7 @@ public class ServletControlador extends HttpServlet {
         String accion = Optional.ofNullable(request.getParameter("accion")).orElse("listar");
         switch(accion){
             case "insertar" -> this.insertarCliente(request, response);
+            case "modificar" -> this.modificarCliente(request, response);
             default -> this.listarClientes(request, response);
         }
     }
@@ -107,4 +116,20 @@ public class ServletControlador extends HttpServlet {
         //Listamos los clientes
         this.listarClientes(request, response);
     }
+  
+    private void modificarCliente(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int idCliente = Integer.parseInt(request.getParameter("idCliente"));
+        String nombre = request.getParameter("nombre");
+        String apellido = request.getParameter("apellido");
+        String email = request.getParameter("email");
+        String telefono = request.getParameter("telefono");
+        double saldo = Double.parseDouble(request.getParameter("saldo"));
+        
+        Cliente cliente = new Cliente(idCliente, nombre, apellido, email, telefono, saldo);
+        new ClienteDAO().actualizar(cliente);
+        //Redirigimos el caso de listar
+        this.listarClientes(request, response);
+    }
+    
 }
